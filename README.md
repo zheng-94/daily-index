@@ -12,3 +12,5 @@
 - [团队需要一个私有npm](https://catchzeng.com/2018/05/22/%E5%9B%A2%E9%98%9F%E9%9C%80%E8%A6%81%E4%B8%80%E4%B8%AA%E7%A7%81%E6%9C%89npm/)
 - [分分钟教会你搭建企业级的 npm 私有仓库](https://juejin.im/post/6844904196651630599)
 
+## 未读
+- [大型前端项目的断点调试共享化和复用化实践](https://zhuanlan.zhihu.com/p/263599057)
