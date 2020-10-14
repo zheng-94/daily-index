@@ -15,9 +15,15 @@
 ## React hook
 - [学用Hooks写React组件——基础版移动端无缝轮播图组件](https://juejin.im/post/6844904008646131725)
 
+## React 动画
+- [React 动画实践– AlloyTeam](http://www.alloyteam.com/2016/01/react-animation-practice/)
+- [React 中常见的动画实现方式](https://segmentfault.com/a/1190000012783439)
+
 ## 未读
 - [大型前端项目的断点调试共享化和复用化实践](https://zhuanlan.zhihu.com/p/263599057)
 - [图解CSS: CSS媒体查询](https://www.w3cplus.com/css/css-media-queries-guide.html)
+- [前端模块化的十年征程](https://zhuanlan.zhihu.com/p/265632724)
+- [nodejs 不同项目代码如何重用？](https://www.zhihu.com/question/425463783/answer/1523651307)
 
 ## 面试
 - [小前端面试阿里血泪史](https://zhuanlan.zhihu.com/p/223459952)
@@ -26,7 +32,6 @@
 ### 0、fullpage
 - [fullpage 组件源码讲解](https://zhuanlan.zhihu.com/p/26337196)
 - [thierryc/react-fullpage](https://github.com/thierryc/react-fullpage)
-
 
 ### 1、轮播
 - [学用Hooks写React组件——基础版移动端无缝轮播图组件](https://juejin.im/post/6844904008646131725)
