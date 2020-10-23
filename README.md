@@ -25,6 +25,7 @@
 - [前端模块化的十年征程](https://zhuanlan.zhihu.com/p/265632724)
 - [nodejs 不同项目代码如何重用？](https://www.zhihu.com/question/425463783/answer/1523651307)
 - [聊聊 JavaScript 的并发、异步和事件循环](https://zhuanlan.zhihu.com/p/266687842)
+- [是什么原因导致了 JS 中的 this 指向问题？](https://www.zhihu.com/question/412637481/answer/1539325572)
 
 ## 面试
 - [小前端面试阿里血泪史](https://zhuanlan.zhihu.com/p/223459952)
