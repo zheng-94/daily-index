@@ -2,6 +2,10 @@
 
 学习笔记、博文、简书、工作日常踩坑记录的汇总目录
 
+## 学习站
+- [pure render](https://www.zhihu.com/column/purerender)
+
+
 ## 杂项
 
 - [React 项目怎么全局引入原子类](https://www.yuque.com/bn5n5w/dz2g84/dbxr51)
@@ -27,29 +31,7 @@
 ### 公共函数
 - [前端项目中公共方法汇总utils.js](https://juejin.im/post/6844903873539227662)
 
-## React hook
-
-- [学用 Hooks 写 React 组件——基础版移动端无缝轮播图组件](https://juejin.im/post/6844904008646131725)
-
-## React 生命周期
-
-- [16.3 新版 react 生命周期 图示](https://segmentfault.com/a/1190000020268993)
-- [官网](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
-- [React 组件生命周期](https://www.runoob.com/react/react-component-life-cycle.html)
-
-## React 动画
-
-- [React 动画实践– AlloyTeam](http://www.alloyteam.com/2016/01/react-animation-practice/)
-- [React 中常见的动画实现方式](https://segmentfault.com/a/1190000012783439)
-- [window.requestAnimationFrame mdn](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
-- [你需要知道的 requestAnimationFrame](https://juejin.im/post/6844903565048152078)
-
-## 未读
-
-- [大型前端项目的断点调试共享化和复用化实践](https://zhuanlan.zhihu.com/p/263599057)
-- [图解 CSS: CSS 媒体查询](https://www.w3cplus.com/css/css-media-queries-guide.html)
-- [前端模块化的十年征程](https://zhuanlan.zhihu.com/p/265632724)
-- [nodejs 不同项目代码如何重用？](https://www.zhihu.com/question/425463783/answer/1523651307)
+## javascrtipt
 - [聊聊 JavaScript 的并发、异步和事件循环](https://zhuanlan.zhihu.com/p/266687842)
 - [是什么原因导致了 JS 中的 this 指向问题？](https://www.zhihu.com/question/412637481/answer/1539325572)
 - [聊聊 JavaScript 的并发、异步和事件循环](https://zhuanlan.zhihu.com/p/266687842)
@@ -58,15 +40,9 @@
 
 - [小前端面试阿里血泪史](https://zhuanlan.zhihu.com/p/223459952)
 
-## 造轮子
+## 未读
 
-### 0、fullpage
-
-- [fullpage 组件源码讲解](https://zhuanlan.zhihu.com/p/26337196)
-- [thierryc/react-fullpage](https://github.com/thierryc/react-fullpage)
-
-### 1、轮播
-
-- [学用 Hooks 写 React 组件——基础版移动端无缝轮播图组件](https://juejin.im/post/6844904008646131725)
-- [纯 js-普通轮播图、卡片式轮播图、堆叠式轮播图](https://juejin.im/post/6844903939159277576)
-- [react-swipes](https://github.com/younth/react-swipes)
+- [大型前端项目的断点调试共享化和复用化实践](https://zhuanlan.zhihu.com/p/263599057)
+- [图解 CSS: CSS 媒体查询](https://www.w3cplus.com/css/css-media-queries-guide.html)
+- [前端模块化的十年征程](https://zhuanlan.zhihu.com/p/265632724)
+- [nodejs 不同项目代码如何重用？](https://www.zhihu.com/question/425463783/answer/1523651307)
