@@ -39,6 +39,7 @@
 ## 面试
 
 - [小前端面试阿里血泪史](https://zhuanlan.zhihu.com/p/223459952)
+- [小前端进腾讯啦！](https://zhuanlan.zhihu.com/p/265147335)
 
 ## 未读
 
