@@ -47,3 +47,7 @@
 - [图解 CSS: CSS 媒体查询](https://www.w3cplus.com/css/css-media-queries-guide.html)
 - [前端模块化的十年征程](https://zhuanlan.zhihu.com/p/265632724)
 - [nodejs 不同项目代码如何重用？](https://www.zhihu.com/question/425463783/answer/1523651307)
+- [前端领域模型，重构前端研发模式](https://zhuanlan.zhihu.com/p/269488323)
+- [系统设计面试指北](https://zhuanlan.zhihu.com/p/274264779)
+- [这个项目可以让你在几分钟快速了解某个编程语言](https://zhuanlan.zhihu.com/p/275676393)
+- [函数式编程进阶：应用函子](https://zhuanlan.zhihu.com/p/275686659)
