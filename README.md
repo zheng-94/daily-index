@@ -40,6 +40,8 @@
 
 - [小前端面试阿里血泪史](https://zhuanlan.zhihu.com/p/223459952)
 - [小前端进腾讯啦！](https://zhuanlan.zhihu.com/p/265147335)
+- [2020年8月-9月前端找工作感受总结](https://zhuanlan.zhihu.com/p/263558415)
+- [为什么招聘高级前端开发这么难？](https://zhuanlan.zhihu.com/p/275915558)
 
 ## 未读
 
@@ -53,6 +55,4 @@
 - [函数式编程进阶：应用函子](https://zhuanlan.zhihu.com/p/275686659)
 - [如何评价京东的 Taro 项目？](https://www.zhihu.com/question/280171514/answer/412338745)
 - [前端如何突破技术与业务的瓶颈——Shopee一年半记](https://zhuanlan.zhihu.com/p/284525549)
-- [为什么招聘高级前端开发这么难？](https://zhuanlan.zhihu.com/p/275915558)
 - [NB 的开源项目遍地开花——GitHub 热点速览 Vol.41](https://zhuanlan.zhihu.com/p/265034932)
-- [2020年8月-9月前端找工作感受总结](https://zhuanlan.zhihu.com/p/263558415)
