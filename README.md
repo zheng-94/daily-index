@@ -42,6 +42,7 @@
 - [小前端进腾讯啦！](https://zhuanlan.zhihu.com/p/265147335)
 - [2020年8月-9月前端找工作感受总结](https://zhuanlan.zhihu.com/p/263558415)
 - [为什么招聘高级前端开发这么难？](https://zhuanlan.zhihu.com/p/275915558)
+- [为什么字节跳动的前端面试需要那么难的算法题？](https://www.zhihu.com/question/394945080/answer/1515087430)
 
 ## 未读
 
@@ -56,3 +57,4 @@
 - [如何评价京东的 Taro 项目？](https://www.zhihu.com/question/280171514/answer/412338745)
 - [前端如何突破技术与业务的瓶颈——Shopee一年半记](https://zhuanlan.zhihu.com/p/284525549)
 - [NB 的开源项目遍地开花——GitHub 热点速览 Vol.41](https://zhuanlan.zhihu.com/p/265034932)
+- [「快页面」动态配置化页面渲染器原理介绍](https://zhuanlan.zhihu.com/p/100708653)
