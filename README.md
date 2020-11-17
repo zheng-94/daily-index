@@ -58,3 +58,4 @@
 - [前端如何突破技术与业务的瓶颈——Shopee一年半记](https://zhuanlan.zhihu.com/p/284525549)
 - [NB 的开源项目遍地开花——GitHub 热点速览 Vol.41](https://zhuanlan.zhihu.com/p/265034932)
 - [「快页面」动态配置化页面渲染器原理介绍](https://zhuanlan.zhihu.com/p/100708653)
+- [已经工作的程序员在写什么样的代码？](https://www.zhihu.com/question/427434420/answer/1554392638)
