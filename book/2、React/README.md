@@ -4,6 +4,8 @@
 - React 中的constructor为什么要this.handleChange = this.handleChange.bind(this);
 - 怎么用好store
 
+## React 工程化
+- [React应用架构设计指南](http://blog.codingplayboy.com/article/140)
 
 ## React 生命周期
 
@@ -28,13 +30,18 @@
 - [Immutable.js结合React的使用](https://juejin.im/post/6844903988467351565)
 - [immutable-js](https://immutable-js.github.io/immutable-js/)
 
-## Redux
+
+
+## Mobx 与 Redux
+- [你需要Mobx还是Redux？](https://juejin.cn/post/6844903562095362056)
+- [Redux 入门教程（一）：基本用法](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html)
+- [Mobx React  最佳实践](https://juejin.cn/post/6844903538280103950)
+- [react+mobx：如何组织store之最佳实践](https://juejin.cn/entry/6844903545934708750)
+- [Mobx React — 最佳实践](https://medium.com/@KumaLi1983/mobx-react-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-18d2941a4395)
 
 - [轻量级 Redux 多实例方案](https://zhuanlan.zhihu.com/p/80105476)
-
-## Mobx
-
 - [从零开始用 proxy 实现 Mobx](https://zhuanlan.zhihu.com/p/27097547)
+
 
 ## React hook
 
