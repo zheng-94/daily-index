@@ -61,3 +61,4 @@
 - [已经工作的程序员在写什么样的代码？](https://www.zhihu.com/question/427434420/answer/1554392638)
 - [有哪些你看了以后大呼过瘾的编程书？](https://www.zhihu.com/question/50408698)
 - [有赞API网关实践](https://tech.youzan.com/api-gateway-in-practice/)
+- [前端开发技术与业务的思考](https://zhuanlan.zhihu.com/p/269061571)
