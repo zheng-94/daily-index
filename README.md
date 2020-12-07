@@ -34,7 +34,6 @@
 ## javascrtipt
 - [聊聊 JavaScript 的并发、异步和事件循环](https://zhuanlan.zhihu.com/p/266687842)
 - [是什么原因导致了 JS 中的 this 指向问题？](https://www.zhihu.com/question/412637481/answer/1539325572)
-- [聊聊 JavaScript 的并发、异步和事件循环](https://zhuanlan.zhihu.com/p/266687842)
 
 ## 面试
 
@@ -45,7 +44,7 @@
 - [为什么字节跳动的前端面试需要那么难的算法题？](https://www.zhihu.com/question/394945080/answer/1515087430)
 
 ## 未读
-
+- [基于微前端的大型中台项目融合方案 #41](https://github.com/brickspert/blog/issues/41)
 - [大型前端项目的断点调试共享化和复用化实践](https://zhuanlan.zhihu.com/p/263599057)
 - [图解 CSS: CSS 媒体查询](https://www.w3cplus.com/css/css-media-queries-guide.html)
 - [前端模块化的十年征程](https://zhuanlan.zhihu.com/p/265632724)

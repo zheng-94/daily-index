@@ -1,10 +1,11 @@
 # git指令
 
 - git status
-## 分支切换
-
-- 查看所有分支：git branch -a
-- 切换分支：git checkout 分支名
+## 分支管理
+1. 查看所有分支 `git branch -a`
+2. 切换分支 `git checkout <BranchName>`
+3. 删除本地分支 `git branch -d <BranchName>`
+4. 删除远程分支 `git push origin --delete <BranchName>`
 
 ## git stash
 
