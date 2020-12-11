@@ -61,3 +61,4 @@
 - [有哪些你看了以后大呼过瘾的编程书？](https://www.zhihu.com/question/50408698)
 - [有赞API网关实践](https://tech.youzan.com/api-gateway-in-practice/)
 - [前端开发技术与业务的思考](https://zhuanlan.zhihu.com/p/269061571)
+- [require和import的区别](https://zhuanlan.zhihu.com/p/121770261)
