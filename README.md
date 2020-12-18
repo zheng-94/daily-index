@@ -5,6 +5,7 @@
 ## 学习站
 - [pure render](https://www.zhihu.com/column/purerender)
 - [lq782655835/blogs](https://github.com/lq782655835/blogs)
+- [他石的碎碎念](https://www.yuque.com/himstone/eowoaw)
 
 ## 杂项
 
@@ -62,3 +63,4 @@
 - [有赞API网关实践](https://tech.youzan.com/api-gateway-in-practice/)
 - [前端开发技术与业务的思考](https://zhuanlan.zhihu.com/p/269061571)
 - [require和import的区别](https://zhuanlan.zhihu.com/p/121770261)
+- [一定要用Typescript么？](https://zhuanlan.zhihu.com/p/335717523)
