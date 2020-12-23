@@ -6,6 +6,9 @@
 - [pure render](https://www.zhihu.com/column/purerender)
 - [lq782655835/blogs](https://github.com/lq782655835/blogs)
 - [他石的碎碎念](https://www.yuque.com/himstone/eowoaw)
+- [云音乐前端技术团队​](https://www.zhihu.com/org/yun-yin-le-qian-duan-ji-zhu-tuan-dui)
+- [ucf-web 微前端框架使用手册](https://www.yuque.com/ucf-web/book)
+- [w3ctim](https://w3ctim.com/)
 
 ## 杂项
 
@@ -36,6 +39,14 @@
 - [聊聊 JavaScript 的并发、异步和事件循环](https://zhuanlan.zhihu.com/p/266687842)
 - [是什么原因导致了 JS 中的 this 指向问题？](https://www.zhihu.com/question/412637481/answer/1539325572)
 
+## 字典库
+- [阿里前端开发规范 constants](https://w3ctim.com/post/1d821dd8.html#4-constants-%E7%9B%AE%E5%BD%95)
+- [vue-enum](https://github.com/1024-lab/vue-enum)
+- [前后端如何维护一份公共常量](https://segmentfault.com/a/1190000015694653)
+- [前端数据字典集成管理方案 - 基于 Vue.js 实现](https://juejin.cn/post/6854573211397406734)
+- [vue之利用vuex实现前端字典库应用篇](https://blog.csdn.net/sunshouyan/article/details/107020699)
+- [在vue项目中 如何定义全局变量 全局函数](https://juejin.cn/post/6844903505832968199)
+
 ## 面试
 
 - [小前端面试阿里血泪史](https://zhuanlan.zhihu.com/p/223459952)
@@ -64,3 +75,6 @@
 - [前端开发技术与业务的思考](https://zhuanlan.zhihu.com/p/269061571)
 - [require和import的区别](https://zhuanlan.zhihu.com/p/121770261)
 - [一定要用Typescript么？](https://zhuanlan.zhihu.com/p/335717523)
+
+
+- [React 事件系统工作原理](https://zhuanlan.zhihu.com/p/338904728)
