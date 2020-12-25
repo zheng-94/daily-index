@@ -47,6 +47,12 @@
 - [vue之利用vuex实现前端字典库应用篇](https://blog.csdn.net/sunshouyan/article/details/107020699)
 - [在vue项目中 如何定义全局变量 全局函数](https://juejin.cn/post/6844903505832968199)
 
+- 字节存储
+- [用JS计算字符所占字节数.markdown](https://gist.github.com/nuintun/9955353)
+- [用JS计算字符所占字节数](http://www.alloyteam.com/2013/12/js-calculate-the-number-of-bytes-occupied-by-a-string/)
+- [字符，字节和编码](http://www.regexlab.com/zh/encoding.htm)
+- [字符与字节有什么区别呢？](https://developer.aliyun.com/article/607828)
+
 ## 面试
 
 - [小前端面试阿里血泪史](https://zhuanlan.zhihu.com/p/223459952)
@@ -78,3 +84,5 @@
 
 
 - [React 事件系统工作原理](https://zhuanlan.zhihu.com/p/338904728)
+- [如何看待 React Server Components？](https://www.zhihu.com/question/435921124/answer/1641702920)
+- [React 灵魂 23 问，你能答对几个？](https://zhuanlan.zhihu.com/p/304213203)
