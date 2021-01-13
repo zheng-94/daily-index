@@ -15,3 +15,6 @@
 - git stash pop
 - git stash apply 1
 - git stash drop 1
+
+## npm 指令
+npm-check -u 更新项目中所有的node_modules包
