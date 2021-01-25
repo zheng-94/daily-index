@@ -1,7 +1,35 @@
 <template>
-  <div>
-    <input type="file" @change="handleFileChange" />
-    <el-button @click="handleUpload">上传</el-button>
+  <div id="app">
+    <div>
+      <input type="file" @change="handleFileChange" />
+      <el-button @click="handleUpload">上传</el-button>
+    </div>
+    <div>
+      <div>计算文件 hash</div>
+      <el-progress :percentage="hashPercentage"></el-progress>
+      <div>总进度</div>
+      <el-progress :percentage="uploadPercentage"></el-progress>
+    </div>
+    <el-table :data="data">
+      <el-table-column
+        prop="hash"
+        label="切片hash"
+        align="center"
+      ></el-table-column>
+      <el-table-column label="大小(KB)" align="center" width="120">
+        <template v-slot="{ row }">
+          {{ row.size | transformByte }}
+        </template>
+      </el-table-column>
+      <el-table-column label="进度" align="center">
+        <template v-slot="{ row }">
+          <el-progress
+            :percentage="row.percentage"
+            color="#909399"
+          ></el-progress>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -13,21 +41,42 @@ export default {
   data: () => ({
     container: {
       file: null,
+      hash: '',
+      worker: null
     },
+    hashPercentage: 0,
     data: [],
   }),
+  computed: {
+    uploadPercentage() {
+      if (!this.container.file || !this.data.length) return 0;
+      const loaded = this.data
+        .map((item) => item.size * item.percentage)
+        .reduce((acc, cur) => acc + cur);
+      return parseInt((loaded / this.container.file.size).toFixed(2));
+    },
+  },
+
   methods: {
     // xhr
-    request({ url, method = "post", data, headers = {}, requestList }) {
-      console.log(requestList);
-      return new Promise((resolve) => {
+    request({
+      url,
+      method = "post",
+      data,
+      headers = {},
+      onProgress = (e) => e,
+      requestList,
+    }) {
+      new Promise((resolve) => {
         const xhr = new XMLHttpRequest();
+        xhr.upload.onprogress = onProgress;
         xhr.open(method, url);
         Object.keys(headers).forEach((key) =>
           xhr.setRequestHeader(key, headers[key])
         );
         xhr.send(data);
         xhr.onload = (e) => {
+          console.log(`eslint: ${requestList}`);
           resolve({
             data: e.target.response,
           });
@@ -44,22 +93,39 @@ export default {
       }
       return fileChunkList;
     },
+    // 生成文件 hash（web-worker）
+    calculateHash(fileChunkList) {
+      return new Promise((resolve) => {
+        this.container.worker = new Worker("/hash.js");
+        this.container.worker.postMessage({ fileChunkList });
+        this.container.worker.onmessage = (e) => {
+          const { percentage, hash } = e.data;
+          this.hashPercentage = percentage;
+          if (hash) {
+            resolve(hash);
+          }
+        };
+      });
+    },
     // 上传切片
     async uploadChunks() {
       const requestList = this.data
-        .map(({ chunk, hash }) => {
+        .map(({ chunk, hash, index }) => {
           const formData = new FormData();
           formData.append("chunk", chunk);
           formData.append("hash", hash);
           formData.append("filename", this.container.file.name);
-          return { formData };
+          formData.append("fileHash", this.container.hash)
+          return { formData, index };
         })
-        .map(async ({ formData }) =>
-          this.request({
+        .map(async ({ formData, index }) => {
+          return this.request({
             url: "http://localhost:3000",
             data: formData,
-          })
-        );
+            onProgress: this.createProgressHandler(this.data[index]),
+            requestList: this.requestList,
+          });
+        });
       await Promise.all(requestList);
       // 合并切片
       await this.mergeRequest();
@@ -73,7 +139,8 @@ export default {
         },
         data: JSON.stringify({
           size: SIZE,
-          filename: this.container.file.name,
+          fileHash: this.container.hash,
+          filename: this.container.file.name
         }),
       });
     },
@@ -88,16 +155,26 @@ export default {
     async handleUpload() {
       if (!this.container.file) return;
       const fileChunkList = this.createFileChunk(this.container.file);
+      this.container.hash = await this.calculateHash(fileChunkList);
       this.data = fileChunkList.map(({ file }, index) => ({
+        fileHash: this.container.hash,
+        index,
+        hash: this.container.hash + "-" + index, // 文件名 + 数组下标
         chunk: file,
-        hash: this.container.file.name + "-" + index, // 文件名 + 数组下标
+        size: file.size,
+        percentage: 0,
       }));
 
       await this.uploadChunks();
+    },
+    // 用闭包保存每个 chunk 的进度数据
+    createProgressHandler(item) {
+      return (e) => {
+        item.percentage = parseInt(String((e.loaded / e.total) * 100));
+      };
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
