@@ -88,3 +88,4 @@
 - [React 灵魂 23 问，你能答对几个？](https://zhuanlan.zhihu.com/p/304213203)
 - [化繁为简的企业级 Git 管理实践（一）：多分支子模块依赖管理](https://www.hahack.com/work/enterprise-class-git-version-control-1/)
 - [冰岩作坊前端组/组会分享](https://g.yuque.com/bingyan-studio/isz3cs)
+- [面试官：你是怎么处理vue项目中的错误的？](https://mp.weixin.qq.com/s/tOaYUNUEdWkU3oQiYphX6g)
