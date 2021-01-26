@@ -38,11 +38,16 @@ const SIZE = 10 * 1024 * 1024; // 切片大小
 
 export default {
   name: "app",
+  filters: {
+    transformByte(val) {
+      return Number((val / 1024).toFixed(0));
+    },
+  },
   data: () => ({
     container: {
       file: null,
-      hash: '',
-      worker: null
+      hash: "",
+      worker: null,
     },
     hashPercentage: 0,
     data: [],
@@ -67,7 +72,7 @@ export default {
       onProgress = (e) => e,
       requestList,
     }) {
-      new Promise((resolve) => {
+      return new Promise((resolve) => {
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = onProgress;
         xhr.open(method, url);
@@ -115,18 +120,18 @@ export default {
           formData.append("chunk", chunk);
           formData.append("hash", hash);
           formData.append("filename", this.container.file.name);
-          formData.append("fileHash", this.container.hash)
+          formData.append("fileHash", this.container.hash);
           return { formData, index };
         })
-        .map(async ({ formData, index }) => {
-          return this.request({
+        .map(async ({ formData, index }) =>
+          this.request({
             url: "http://localhost:3000",
             data: formData,
             onProgress: this.createProgressHandler(this.data[index]),
-            requestList: this.requestList,
-          });
-        });
+          })
+        );
       await Promise.all(requestList);
+
       // 合并切片
       await this.mergeRequest();
     },
@@ -140,7 +145,7 @@ export default {
         data: JSON.stringify({
           size: SIZE,
           fileHash: this.container.hash,
-          filename: this.container.file.name
+          filename: this.container.file.name,
         }),
       });
     },
