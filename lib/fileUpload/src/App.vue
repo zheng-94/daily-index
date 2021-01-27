@@ -1,16 +1,24 @@
 <template>
   <div id="app">
     <div>
-      <input type="file" @change="handleFileChange" />
-      <el-button @click="handleUpload">上传</el-button>
-      <el-button @click="handlePause" v-if="!isPaused">暂停</el-button>
-      <el-button @click="handleResume" v-else>恢复</el-button>
+      <input 
+        type="file" 
+        :disabled="status !== Status.wait"
+        @change="handleFileChange" />
+      <el-button :disabled="uploadDisabled" @click="handleUpload" >上传</el-button>
+      <el-button 
+        v-if="status !== Status.pause"
+        :disabled="status !== Status.uploading || !container.hash" 
+        @click="handlePause" >
+        暂停
+      </el-button>
+      <el-button v-else @click="handleResume">恢复</el-button>
     </div>
     <div>
       <div>计算文件 hash</div>
       <el-progress :percentage="hashPercentage"></el-progress>
       <div>总进度</div>
-      <el-progress :percentage="uploadPercentage"></el-progress>
+      <el-progress :percentage="fakeUploadPercentage"></el-progress>
     </div>
     <el-table :data="data">
       <el-table-column
@@ -38,6 +46,12 @@
 <script>
 const SIZE = 10 * 1024 * 1024; // 切片大小
 
+const Status = {
+  wait: "wait",
+  pause: "pause",
+  uploading: "uploading"
+};
+
 export default {
   name: "app",
   filters: {
@@ -46,6 +60,8 @@ export default {
     },
   },
   data: () => ({
+    Status,
+    
     container: {
       file: null,
       hash: "",
@@ -54,9 +70,18 @@ export default {
     hashPercentage: 0,
     data: [],
     requestList: [],
-    isPaused: false
+    status: Status.wait,
+    // 当暂停时会取消 xhr 导致进度条后退
+    // 为了避免这种情况，需要定义一个假的进度条
+    fakeUploadPercentage: 0
   }),
   computed: {
+    uploadDisabled() {
+      return (
+        !this.container.file ||
+        [Status.pause, Status.uploading].includes(this.status)
+      );
+    },
     uploadPercentage() {
       if (!this.container.file || !this.data.length) return 0;
       const loaded = this.data
@@ -65,19 +90,29 @@ export default {
       return parseInt((loaded / this.container.file.size).toFixed(2));
     },
   },
-
+  watch: {
+    uploadPercentage(now) {
+      if(now > this.fakeUploadPercentage) {
+        this.fakeUploadPercentage = now
+      }
+    }
+  },
   methods: {
     // handle 暂停上传
     handlePause() {
-      this.isPaused = true
-      
+      this.status = Status.pause;
+      this.resetData();
+    },
+    resetData() {
       this.requestList.forEach(xhr => xhr?.abort());
       this.requestList = [];
+      if (this.container.worker) {
+        this.container.worker.onmessage = null;
+      }
     },
     // handle 恢复上传
     async handleResume() {
-      this.isPaused = false
-
+      this.status = Status.uploading;
       const { uploadedList } = await this.verifyUpload(
         this.container.file.name,
         this.container.hash
@@ -183,6 +218,7 @@ export default {
     handleFileChange(e) {
       const [file] = e.target.files;
       if (!file) return;
+      this.resetData();
       Object.assign(this.$data, this.$options.data());
       this.container.file = file;
     },
