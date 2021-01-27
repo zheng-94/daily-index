@@ -3,8 +3,8 @@
     <div>
       <input type="file" @change="handleFileChange" />
       <el-button @click="handleUpload">上传</el-button>
-      <el-button @click="handlePause">暂停</el-button
-      >
+      <el-button @click="handlePause" v-if="!isPaused">暂停</el-button>
+      <el-button @click="handleResume" v-else>恢复</el-button>
     </div>
     <div>
       <div>计算文件 hash</div>
@@ -54,6 +54,7 @@ export default {
     hashPercentage: 0,
     data: [],
     requestList: [],
+    isPaused: false
   }),
   computed: {
     uploadPercentage() {
@@ -66,9 +67,22 @@ export default {
   },
 
   methods: {
+    // handle 暂停上传
     handlePause() {
+      this.isPaused = true
+      
       this.requestList.forEach(xhr => xhr?.abort());
       this.requestList = [];
+    },
+    // handle 恢复上传
+    async handleResume() {
+      this.isPaused = false
+
+      const { uploadedList } = await this.verifyUpload(
+        this.container.file.name,
+        this.container.hash
+      );
+      await this.uploadChunks(uploadedList)
     },
     // xhr
     request({
@@ -125,8 +139,9 @@ export default {
       });
     },
     // 上传切片
-    async uploadChunks() {
+    async uploadChunks(uploadedList = []) {
       const requestList = this.data
+        .filter(({ hash }) => !uploadedList.includes(hash))
         .map(({ chunk, hash, index }) => {
           const formData = new FormData();
           formData.append("chunk", chunk);
@@ -144,8 +159,11 @@ export default {
           })
         );
       await Promise.all(requestList);
+      // 之前上传的切片数量 + 本次上传的切片数量 = 所有切片数量时
       // 合并切片
-      await this.mergeRequest();
+      if(uploadedList.length + requestList.length === this.data.length) {
+        await this.mergeRequest();
+      }
     },
     // 通知服务端合并切片
     async mergeRequest() {
@@ -189,7 +207,7 @@ export default {
       const fileChunkList = this.createFileChunk(this.container.file);
       this.container.hash = await this.calculateHash(fileChunkList);
 
-      const { shouldUpload } = await this.verifyUpload(
+      const { shouldUpload, uploadedList } = await this.verifyUpload(
         this.container.file.name,
         this.container.hash
       );
@@ -207,7 +225,7 @@ export default {
         percentage: 0,
       }));
 
-      await this.uploadChunks();
+      await this.uploadChunks(uploadedList);
     },
     // 用闭包保存每个 chunk 的进度数据
     createProgressHandler(item) {
