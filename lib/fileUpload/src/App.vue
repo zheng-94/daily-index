@@ -131,7 +131,7 @@ export default {
           })
         );
       await Promise.all(requestList);
-
+      console.log(`上传完成，开始合并切片`)
       // 合并切片
       await this.mergeRequest();
     },
@@ -156,11 +156,36 @@ export default {
       Object.assign(this.$data, this.$options.data());
       this.container.file = file;
     },
+    // 根据 hash 验证文件是否曾经已经被上传过
+    // 没有才进行上传
+    async verifyUpload(filename, fileHash) {
+      const { data } = await this.request({
+        url: "http://localhost:3000/verify",
+        headers: {
+          "content-type": "application/json"
+        },
+        data: JSON.stringify({
+          filename,
+          fileHash
+        })
+      });
+      return JSON.parse(data);
+    },
     // handle 上传
     async handleUpload() {
       if (!this.container.file) return;
       const fileChunkList = this.createFileChunk(this.container.file);
       this.container.hash = await this.calculateHash(fileChunkList);
+
+      const { shouldUpload } = await this.verifyUpload(
+        this.container.file.name,
+        this.container.hash
+      );
+      if (!shouldUpload) {
+        this.$message.success("秒传：上传成功");
+        return;
+      }
+      
       this.data = fileChunkList.map(({ file }, index) => ({
         fileHash: this.container.hash,
         index,
