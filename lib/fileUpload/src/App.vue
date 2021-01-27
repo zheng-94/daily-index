@@ -3,6 +3,8 @@
     <div>
       <input type="file" @change="handleFileChange" />
       <el-button @click="handleUpload">上传</el-button>
+      <el-button @click="handlePause">暂停</el-button
+      >
     </div>
     <div>
       <div>计算文件 hash</div>
@@ -51,6 +53,7 @@ export default {
     },
     hashPercentage: 0,
     data: [],
+    requestList: [],
   }),
   computed: {
     uploadPercentage() {
@@ -63,6 +66,10 @@ export default {
   },
 
   methods: {
+    handlePause() {
+      this.requestList.forEach(xhr => xhr?.abort());
+      this.requestList = [];
+    },
     // xhr
     request({
       url,
@@ -81,11 +88,16 @@ export default {
         );
         xhr.send(data);
         xhr.onload = (e) => {
-          console.log(`eslint: ${requestList}`);
+          if(requestList) {
+            const xhrIndex = requestList.findIndex(item => item === xhr);
+            requestList.splice(xhrIndex, 1);
+          }
           resolve({
             data: e.target.response,
           });
         };
+        // 暴露当前xhr给外部
+        requestList?.push(xhr)
       });
     },
     // 生成文件切片
@@ -128,10 +140,10 @@ export default {
             url: "http://localhost:3000",
             data: formData,
             onProgress: this.createProgressHandler(this.data[index]),
+            requestList: this.requestList
           })
         );
       await Promise.all(requestList);
-      console.log(`上传完成，开始合并切片`)
       // 合并切片
       await this.mergeRequest();
     },
