@@ -1,20 +1,29 @@
 <template>
   <div id="app">
     <div>
-      <input 
-        type="file" 
+      <input
+        type="file"
         :disabled="status !== Status.wait"
-        @change="handleFileChange" />
-      <el-button :disabled="uploadDisabled" @click="handleUpload" >上传</el-button>
-      <el-button 
+        @change="handleFileChange"
+      />
+      <el-button :disabled="uploadDisabled" @click="handleTranCode"
+        >转码</el-button
+      >
+      <el-button :disabled="uploadDisabled" @click="handleUpload"
+        >上传</el-button
+      >
+      <el-button
         v-if="status !== Status.pause"
-        :disabled="status !== Status.uploading || !container.hash" 
-        @click="handlePause" >
+        :disabled="status !== Status.uploading || !container.hash"
+        @click="handlePause"
+      >
         暂停
       </el-button>
       <el-button v-else @click="handleResume">恢复</el-button>
     </div>
     <div>
+      <div>文件转码</div>
+      <el-progress :percentage="decodePercentage"></el-progress>
       <div>计算文件 hash</div>
       <el-progress :percentage="hashPercentage"></el-progress>
       <div>总进度</div>
@@ -49,8 +58,10 @@ const SIZE = 10 * 1024 * 1024; // 切片大小
 const Status = {
   wait: "wait",
   pause: "pause",
-  uploading: "uploading"
+  uploading: "uploading",
 };
+
+import { createFFmpeg } from "@ffmpeg/ffmpeg";
 
 export default {
   name: "app",
@@ -61,19 +72,20 @@ export default {
   },
   data: () => ({
     Status,
-    
+
     container: {
       file: null,
       hash: "",
       worker: null,
     },
+    decodePercentage: 0, // 转码进度条
     hashPercentage: 0, // 计算hash 进度条
     data: [],
     requestList: [],
     status: Status.wait,
     // 当暂停时会取消 xhr 导致进度条后退
     // 为了避免这种情况，需要定义一个假的进度条
-    fakeUploadPercentage: 0
+    fakeUploadPercentage: 0,
   }),
   computed: {
     uploadDisabled() {
@@ -92,19 +104,61 @@ export default {
   },
   watch: {
     uploadPercentage(now) {
-      if(now > this.fakeUploadPercentage) {
-        this.fakeUploadPercentage = now
+      if (now > this.fakeUploadPercentage) {
+        this.fakeUploadPercentage = now;
       }
-    }
+    },
   },
   methods: {
+    // handle 文件转码
+    async handleTranCode() {
+      // util 获取二进制数组
+      const getArrayBuffer = (file) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.readAsArrayBuffer(file);
+          reader.onload = () => {
+            const arrayBuffer = reader.result;
+            const bytes = new Uint8Array(arrayBuffer);
+            resolve(bytes);
+          };
+        });
+      };
+
+      // util bolb转成file
+      const blobToFile = (theBlob, fileName) => {
+        theBlob.lastModifiedDate = new Date();
+        theBlob.name = fileName;
+        return theBlob;
+      }
+
+      const ffmpeg = createFFmpeg({
+        log: false,
+        progress: ({ ratio }) => {
+          this.decodePercentage = Math.round(ratio * 10000) / 100;
+        },
+      });
+
+      const fileName = this.container.file.name;
+      const fileBuffer = await getArrayBuffer(this.container.file);
+
+      await ffmpeg.load();
+
+      ffmpeg.FS("writeFile", fileName, fileBuffer);
+
+      await ffmpeg.run("-i", fileName, "output.mp4");
+
+      const data = ffmpeg.FS("readFile", "output.mp4");
+
+      this.container.file = blobToFile(new Blob([data.buffer], { type: "video/mp4" }), fileName)
+    },
     // handle 暂停上传
     handlePause() {
       this.status = Status.pause;
       this.resetData();
     },
     resetData() {
-      this.requestList.forEach(xhr => xhr?.abort());
+      this.requestList.forEach((xhr) => xhr?.abort());
       this.requestList = [];
       if (this.container.worker) {
         this.container.worker.onmessage = null;
@@ -117,7 +171,7 @@ export default {
         this.container.file.name,
         this.container.hash
       );
-      await this.uploadChunks(uploadedList)
+      await this.uploadChunks(uploadedList);
     },
     // xhr
     request({
@@ -138,8 +192,8 @@ export default {
         xhr.send(data);
         xhr.onload = (e) => {
           // 将请求成功的 xhr 从列表中删除
-          if(requestList) {
-            const xhrIndex = requestList.findIndex(item => item === xhr);
+          if (requestList) {
+            const xhrIndex = requestList.findIndex((item) => item === xhr);
             requestList.splice(xhrIndex, 1);
           }
           resolve({
@@ -147,7 +201,7 @@ export default {
           });
         };
         // 暴露当前xhr给外部
-        requestList?.push(xhr)
+        requestList?.push(xhr);
       });
     },
     // 生成文件切片
@@ -191,13 +245,13 @@ export default {
             url: "http://localhost:3000",
             data: formData,
             onProgress: this.createProgressHandler(this.data[index]),
-            requestList: this.requestList
+            requestList: this.requestList,
           })
         );
       await Promise.all(requestList);
       // 之前上传的切片数量 + 本次上传的切片数量 = 所有切片数量时
       // 合并切片
-      if(uploadedList.length + requestList.length === this.data.length) {
+      if (uploadedList.length + requestList.length === this.data.length) {
         await this.mergeRequest();
       }
     },
@@ -231,12 +285,12 @@ export default {
       const { data } = await this.request({
         url: "http://localhost:3000/verify",
         headers: {
-          "content-type": "application/json"
+          "content-type": "application/json",
         },
         data: JSON.stringify({
           filename,
-          fileHash
-        })
+          fileHash,
+        }),
       });
       return JSON.parse(data);
     },
@@ -255,14 +309,14 @@ export default {
         this.status = Status.wait;
         return;
       }
-      
+
       this.data = fileChunkList.map(({ file }, index) => ({
         fileHash: this.container.hash,
         index,
         hash: this.container.hash + "-" + index, // 文件名 + 数组下标
         chunk: file,
         size: file.size,
-        percentage: uploadedList.includes(index) ? 100 : 0
+        percentage: uploadedList.includes(index) ? 100 : 0,
       }));
 
       await this.uploadChunks(uploadedList);
