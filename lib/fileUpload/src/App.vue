@@ -67,7 +67,7 @@ export default {
       hash: "",
       worker: null,
     },
-    hashPercentage: 0,
+    hashPercentage: 0, // 计算hash 进度条
     data: [],
     requestList: [],
     status: Status.wait,
@@ -137,6 +137,7 @@ export default {
         );
         xhr.send(data);
         xhr.onload = (e) => {
+          // 将请求成功的 xhr 从列表中删除
           if(requestList) {
             const xhrIndex = requestList.findIndex(item => item === xhr);
             requestList.splice(xhrIndex, 1);
@@ -213,6 +214,8 @@ export default {
           filename: this.container.file.name,
         }),
       });
+      this.$message.success("上传成功");
+      this.status = Status.wait;
     },
     // handle 选择文件
     handleFileChange(e) {
@@ -249,6 +252,7 @@ export default {
       );
       if (!shouldUpload) {
         this.$message.success("秒传：上传成功");
+        this.status = Status.wait;
         return;
       }
       
@@ -258,7 +262,7 @@ export default {
         hash: this.container.hash + "-" + index, // 文件名 + 数组下标
         chunk: file,
         size: file.size,
-        percentage: 0,
+        percentage: uploadedList.includes(index) ? 100 : 0
       }));
 
       await this.uploadChunks(uploadedList);
