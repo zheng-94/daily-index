@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sendFile</title>
+</head>
+
+<body>
+  <div>
+    <input type="file" id="myfile" onchange="send_file_to_wasm()">
+  </div>
+  <div>emcc sendFile.c --js-library jsLibary.js -s "EXPORTED_FUNCTIONS=['_read_and_save_file']" -s
+    "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" -s FORCE_FILESYSTEM=1 -o sendFile.js</div>
+</body>
+
+<script type="text/javascript" src="snedFile.js"></script>
+
+<script type="text/javascript">
+  let reader = new FileReader();
+  let fileName = ''
+
+  function load_file() {
+    let files = document.getElementById('myfile').files;
+    let file = files[0];
+    fileName = file.name;
+
+    reader.addEventListener('loadend', send_file_to_wasm);
+    reader.readAsArrayBuffer(file);
+  }
+
+  function send_file_to_wasm(e) {
+    let result = reader.result;
+    const uint8_view = new Uint8Array(result);
+
+    FS.writeFile(fileName, uint8_view)
+    Module.ccall('read_and_save_file', 'number', ['string'], [fileName])
+  }  
+</script>
+
+</html>

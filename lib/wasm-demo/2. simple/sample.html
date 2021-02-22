@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>importObject</title>
+  <script>
+    let importObject = {
+      imports: {
+        imported_func: arg => console.log(arg),
+        get_file_func: arg => console.log(arg), // emit
+        success_func: arg => console.log(arg), // 
+
+      }
+    };
+
+    WebAssembly.instantiateStreaming(fetch('simple.wasm'), importObject)
+      .then(obj => obj.instance.exports.exported_func());
+  </script>
+</head>
+
+<body>
+  <div>
+    小目标：整个文件发给wasm，获取一个完整的转码文件
+    难点：最核心的难点还是怎么将那个C工程转化为wasm。当然，可以一步一步来，先转化
+  </div>
+</body>
+
+</html>

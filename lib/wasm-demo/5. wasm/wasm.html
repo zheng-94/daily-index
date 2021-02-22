@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>双边通信</title>
+</head>
+
+<body>
+  <div>
+    <input type="file" id="myfile" onchange="load_file()">
+  </div>
+</body>
+
+<script type="text/javascript" src="readFile_em.js"></script>
+
+<script type="text/javascript">
+  let reader = new FileReader();
+  let fileName = ''
+
+  function load_file() {
+    let files = document.getElementById('myfile').files;
+    let file = files[0];
+    fileName = file.name;
+
+    reader.addEventListener('loadend', print_file);
+    reader.readAsArrayBuffer(file);
+  }
+
+  function print_file(e) {
+    let result = reader.result;
+    const uint8_view = new Uint8Array(result);
+
+    FS.writeFile(fileName, uint8_view)
+    Module.ccall('print_file', 'number', ['string'], [fileName])
+  }
+</script>
+
+</html>
