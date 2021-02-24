@@ -1,0 +1,8 @@
+﻿  stdafx.cpp
+  simplest_ffmpeg_transcoder.cpp
+e:\demos\wasm-demo\8. transcode\simplest_ffmpeg_transcoder\simplest_ffmpeg_transcoder\simplest_ffmpeg_transcoder.cpp(210): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1961): note: 参见“_snprintf”的声明
+e:\demos\wasm-demo\8. transcode\simplest_ffmpeg_transcoder\simplest_ffmpeg_transcoder\simplest_ffmpeg_transcoder.cpp(257): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1961): note: 参见“_snprintf”的声明
+e:\demos\wasm-demo\8. transcode\simplest_ffmpeg_transcoder\simplest_ffmpeg_transcoder\simplest_ffmpeg_transcoder.cpp(408): warning C4244: “=”: 从“int64_t”转换到“int”，可能丢失数据
+  simplest_ffmpeg_transcoder.vcxproj -> E:\Demos\wasm-demo\8. transcode\simplest_ffmpeg_transcoder\Debug\simplest_ffmpeg_transcoder.exe

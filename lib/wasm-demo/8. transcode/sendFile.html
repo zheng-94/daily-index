@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sendFile</title>
+</head>
+
+<body>
+  <div>
+    <input type="file" id="myfile" onchange="load_file()">
+  </div>
+  <div>
+    emcc sendFile.c --js-library jsLibary.js -s FORCE_FILESYSTEM=1 -s "EXPORTED_FUNCTIONS=['_read_and_save_file']" -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" -s FORCE_FILESYSTEM=1 -o sendFile.js
+  </div>
+</body>
+
+<script type="text/javascript" src="sendFile.js"></script>
+
+<script type="text/javascript">
+  let reader = new FileReader();
+  let fileName = ''
+
+  function load_file() {
+    let files = document.getElementById('myfile').files;
+    let file = files[0];
+    fileName = file.name;
+
+    reader.addEventListener('loadend', send_file_to_wasm);
+    reader.readAsArrayBuffer(file);
+  }
+
+  function send_file_to_wasm(e) {
+    let result = reader.result;
+    const uint8_content = new Uint8Array(result);
+
+    FS.writeFile(fileName, uint8_content)
+
+    let call = Module.ccall('read_and_save_file', 'number', ['string'], [fileName])
+
+    console.log(`send_file_to_wasm call: `)
+    console.log(call)
+
+    download_file()
+  }
+
+  function download_file(file = 'newfile') {
+    const content = FS.readFile(file, { encoding: "binary" });
+
+    const fileUrl = URL.createObjectURL(
+      new Blob([new Uint8Array(content, content.byteOffset, content.length)])
+    );
+
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.innerHTML = "Click!";
+    document.body.appendChild(link);
+    link.click();
+  }
+</script>
+
+</html>

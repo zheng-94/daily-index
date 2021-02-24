@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IndexedDB 测试</title>
+</head>
+
+<body>
+  <div>
+    <input type="file" id="myfile" onchange="load_file()">
+  </div>
+  <div>监听通信 利用IndexedDB和MutationObserver</div>
+</body>
+
+<script type="text/javascript" src="sendFile.js"></script>
+
+<script type="text/javascript">
+  const databaseName = 'database'
+
+  let reader = new FileReader();
+  let uploadFileName = ''
+
+  function load_file() {
+    let files = document.getElementById('myfile').files;
+    let file = files[0];
+    uploadFileName = file.name;
+
+    reader.addEventListener('loadend', send_file_to_wasm);
+    reader.readAsArrayBuffer(file);
+  }
+
+  function send_file_to_wasm(e) {
+    let result = reader.result;
+    const uint8_content = new Uint8Array(result);
+
+    FS.writeFile(uploadFileName, uint8_content)
+
+    Module.ccall('main', 'number', ['string'], [uploadFileName])
+
+    // finish
+  }
+
+  // 监听dom MutationObserver
+  const watchDOM = () => {
+    const request = window.indexedDB.open(uploadFileName, )
+  }
+
+  // indexedDB 新建数据库
+  const createIndexedDB = () => {
+    var db;
+    var request = window.indexedDB.open(databaseName);
+
+    request.onerror = function (event) {
+      console.log('数据库打开报错');
+    };
+
+    request.onsuccess = function (event) {
+      db = request.result;
+      console.log('数据库打开成功');
+    };
+
+    request.onupgradeneeded = function (event) {
+      // 新建数据库
+      db = event.target.result;
+      
+      if (!db.objecttables.contains('video')) { // 判断数据库中是否已经存在该名称的数据表
+        objectStore = db.createObjectStore('video', { keyPath: 'id' }); 
+        objectStore.createIndex('name', 'name', { unique: false }); 
+        objectStore.createIndex('name', 'name', { unique: false }); 
+      }
+    }
+  }
+
+  // indexedDB 新建表
+  const createIndexedDBStore = function (name) {
+    var db;
+    var request = window.indexedDB.open(databaseName);
+
+    request.onerror = function (event) {
+      console.log('数据库打开报错');
+    };
+
+    request.onsuccess = function (event) {
+      db = request.result;
+      console.log('数据库打开成功');
+
+      if (!db.objecttables.contains('video')) { // 判断数据库中是否已经存在该名称的数据表
+        objectStore = db.createObjectStore('video', { keyPath: 'id' }); 
+        objectStore.createIndex('name', 'name', { unique: false }); 
+        objectStore.createIndex('name', 'name', { unique: false }); 
+      }
+    };
+  }
+
+  
+</script>
+
+</html>
