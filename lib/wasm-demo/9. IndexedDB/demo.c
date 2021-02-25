@@ -1,8 +1,9 @@
 #include <stdio.h>
 
-extern int download_file_from_wasm(void);
+extern int add_indexedDB(void);
+extern int edit_DOM(void);
 
-int main(char *file_path)
+int forward(char *file_path)
 {
   FILE *source, *target;
   int i;
@@ -37,7 +38,8 @@ int main(char *file_path)
   fclose(source);
   fclose(target);
 
-  download_file_from_wasm();
+  add_indexedDB();
+  edit_DOM();
 
   return 0;
 }
