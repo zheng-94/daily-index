@@ -10,7 +10,7 @@
 
 <body>
   <div>
-    <input type="file" id="myfile" onchange="load_file()">
+    <input type="file" id="myfile" onchange="inputChange()">
   </div>
   <div>监听通信 利用IndexedDB和MutationObserver</div>
 </body>
@@ -20,7 +20,7 @@
 <script type="text/javascript">
 
   // handle 点击选择文件
-  function load_file() {
+  function inputChange() {
     const reader = new FileReader();
     const file = document.getElementById('myfile').files[0];
 
@@ -30,7 +30,7 @@
     async function saveFile(e) {
       let result = reader.result;
       const uint8Data = new Uint8Array(result);
-      
+
       await initDB([file.name]); // 初始化IndexedDB
       await addStoreFile(file.name, { id: 0, data: uint8Data }); // 将文件放入IndexedDB中所对应名称的store
 
@@ -40,11 +40,16 @@
     }
   }
 
-  
-
+  // todo
   // 监听dom MutationObserver
   const watchDOM = () => {
 
+  }
+
+  // 获取 encoded data packets 
+  async function getDataPacket(fileName, index) {
+    let data = await getPacketByIndex(fileName, index)
+    console.log(data)
   }
 </script>
 
