@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IndexedDB 测试</title>
+</head>
+
+<body>
+  <div>
+    <input type="file" id="myfile" onchange="inputChange()">
+
+  </div>
+  <div>
+    <button class="mybutton">Run Function</button>
+  </div>
+</body>
+
+<script type="text/javascript" src="demo.js"></script>
+<script type="text/javascript">
+  // // int
+  // var int_ptr = Module.ccall('get_int_ptr', 'number', null, null)
+  // var int_value = Module.HEAP32[int_ptr >> 2];
+  // console.log("JS {int_value:" + int_value + "}");
+
+  // // double  
+  // var double_ptr = Module.ccall('get_double_ptr', 'number', null, null)
+  // var double_value = Module.HEAPF64[double_ptr >> 3];
+  // console.log("JS {double_value:" + double_value + "}");
+
+  // Module.HEAP32[int_ptr >> 2] = 13;
+  // Module.HEAPF64[double_ptr >> 3] = 123456.789
+
+  // Module.ccall('print_data', null, null, null)
+
+  document.querySelector('.mybutton')
+    .addEventListener('click', function () {
+      // get_int_ptr
+      var int_ptr = Module.ccall('get_int_ptr', 'number', null, null)
+      var int_value = Module.HEAP32[int_ptr >> 2];
+      console.log("JS {int_value:" + int_value + "}");
+
+      // get_double_ptr  
+      var double_ptr = Module.ccall('get_double_ptr', 'number', null, null)
+      var double_value = Module.HEAPF64[double_ptr >> 3];
+      console.log("JS {double_value:" + double_value + "}");
+
+      // 
+      Module.HEAP32[int_ptr >> 2] = 13;
+      Module.HEAPF64[double_ptr >> 3] = 123456.789
+
+      Module.ccall('print_data', null, null, null)
+    })
+</script>
+
+</html>
