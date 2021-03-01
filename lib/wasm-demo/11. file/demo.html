@@ -141,6 +141,16 @@
   };
 
   init();
+
+  var mo = new MutationObserver(function (records) {
+    // callback
+  });
+
+  mo.observe(document.getElementById('#my_element'), {
+    'attributes': true,
+    'attributeOldValue': true
+  });
+
 </script>
 
 </html>
