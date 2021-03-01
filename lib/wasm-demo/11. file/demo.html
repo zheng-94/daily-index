@@ -144,9 +144,19 @@
 
   var mo = new MutationObserver(function (records) {
     // callback
+    console.log(`MutationObserver`)
+    // console.log(records)
+    let $sizePtr = document.querySelector('#size-ptr');
+
+    let sizePtr = $sizePtr.getAttribute('data-size')
+    let timePtr = $sizePtr.getAttribute('data-time')
+    let dataPtr = $sizePtr.getAttribute('data-data')
+    console.log(sizePtr)
+    console.log(timePtr)
+    console.log(dataPtr)
   });
 
-  mo.observe(document.getElementById('#my_element'), {
+  mo.observe(document.getElementById('size-ptr'), {
     'attributes': true,
     'attributeOldValue': true
   });
