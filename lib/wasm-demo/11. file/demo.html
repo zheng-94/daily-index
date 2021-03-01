@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ffmpeg wasm js和wasm的交互</title>
+  <style>
+    input,
+    label,
+    p {
+      font-size: 16px
+    }
+
+    body {
+      margin: 20px
+    }
+
+    @media (max-width: 700px) {
+      input {
+        display: block;
+        margin-bottom: 15px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <form style="margin-bottom: 20px;">
+    <p>请选择一个视频（本地操作不会上传）</p>
+    <input type="file" required name="file">
+  </form>
+  <p id="text-tip">WASM下载解析中，请稍候。。。</p>
+  <div id="error-tip"></div>
+  <div>
+    <div>
+      <div>sizePtr:</div>
+      <div id="size-ptr"></div>
+    </div>
+    <div>
+      <div>timePtr:</div>
+      <div id="time-ptr"></div>
+    </div>
+    <div>
+      <div>dataPtr:</div>
+      <div id="data-ptr"></div>
+    </div>
+  </div>
+</body>
+
+<script type="text/javascript" src="demo.js"></script>
+<script type="text/javascript">
+  function init() {
+    let setFile = null;
+    let $text = document.querySelector('#text-tip'),
+      $errorTip = document.querySelector('#error-tip');
+
+    if (!window.WebAssembly) {
+      let tip = '你的浏览器不支持WASM!';
+      if (/iPhone|iPad/.test(window.navigator.userAgent)) {
+        tip += ' ios需要11以上版本'
+      }
+      $text.textContent = tip;
+      return;
+    }
+    let form = document.querySelector('form');
+
+    // 初始化加载
+    Module.onRuntimeInitialized = function () {
+      setFile = Module.cwrap('setFile', 'number', ['string']);
+      $text.textContent = 'WASM初始化完毕，请选择视频文件';
+
+      setTimeout(() => $text.remove(), 3000);
+
+      console.log('WASM initialized done!');
+
+      if (form.file.value) {
+        process();
+      }
+    };
+
+    form.onsubmit = form.file.onchange = process;
+
+    // 传文件到wasm
+    function process(event) {
+      if (!form.file.value) {
+        return;
+      }
+      event && event.preventDefault();
+      let fileReader = new FileReader();
+      let file = form.file.files[0];
+      let fileName = file.name
+
+      if (file.type && file.type.indexOf('video') !== 0) {
+        $errorTip.textContent = '您选择的类型是：' + file.type + '不是一个视频文件';
+        return;
+      }
+      $errorTip.textContent = '';
+
+      fileReader.onload = function (e) {
+        if (!setFile) {
+          return;
+        }
+        let ptr = 0;
+        let offset = 0;
+        try {
+          let buffer = new Uint8Array(this.result);
+          FS.writeFile(file.name, buffer)
+          setFile(file.name);
+
+          // offset = Module._malloc(buffer.length);
+          // // console.log(offset);
+          // Module.HEAP8.set(buffer, offset);
+          // ptr = setFile(file.name);
+          // console.log(`setFile ptr:`)
+          // console.log(ptr)
+        } catch (e) {
+          $errorTip.innerHtml = '不小心挂了，请刷新页面重试';
+          throw e;
+        }
+        // let packetSize = Module.HEAPU32[ptr / 4];
+        // let timestamp = Module.HEAPU32[ptr / 4 + 1];
+        // let packetBufferPtr = Module.HEAPU32[ptr / 4 + 2];
+        // let packetBuffer = Module.HEAPU8.subarray(imgBufferPtr, imgBufferPtr + packetSize);
+
+        // 释放内存
+        // Module._free(ptr);
+        // Module._free(offset);
+        // Module._free(packetBufferPtr);
+
+        // console.log(packetSize)
+        // console.log(timestamp)
+        // console.log(packetBuffer)
+        debugger
+      };
+
+      fileReader.readAsArrayBuffer(file);
+    };
+
+  };
+
+  init();
+</script>
+
+</html>
