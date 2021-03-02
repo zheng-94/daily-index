@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.jsp": "jsp",
+    "*.mdx": "markdown",
+    "xutility": "c"
+  }
+}

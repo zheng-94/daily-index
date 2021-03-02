@@ -33,20 +33,7 @@
   </form>
   <p id="text-tip">WASM下载解析中，请稍候。。。</p>
   <div id="error-tip"></div>
-  <div>
-    <div>
-      <div>sizePtr:</div>
-      <div id="size-ptr"></div>
-    </div>
-    <div>
-      <div>timePtr:</div>
-      <div id="time-ptr"></div>
-    </div>
-    <div>
-      <div>dataPtr:</div>
-      <div id="data-ptr"></div>
-    </div>
-  </div>
+  <div id="packet-ptr"></div>
 </body>
 
 <script type="text/javascript" src="demo.js"></script>
@@ -132,7 +119,7 @@
         // console.log(packetSize)
         // console.log(timestamp)
         // console.log(packetBuffer)
-        debugger
+        // debugger
       };
 
       fileReader.readAsArrayBuffer(file);
@@ -143,20 +130,22 @@
   init();
 
   var mo = new MutationObserver(function (records) {
-    // callback
-    console.log(`MutationObserver`)
-    // console.log(records)
-    let $sizePtr = document.querySelector('#size-ptr');
+    console.log(`observer`)
+    let $packetPtr = document.querySelector('#packet-ptr');
 
-    let sizePtr = $sizePtr.getAttribute('data-size')
-    let timePtr = $sizePtr.getAttribute('data-time')
-    let dataPtr = $sizePtr.getAttribute('data-data')
-    console.log(sizePtr)
-    console.log(timePtr)
-    console.log(dataPtr)
+    let packetPtr = $packetPtr.getAttribute('data-packetPtr');
+    
+    let data = Module.HEAP32[packetPtr / 4];
+    console.log(data)
+
+    // let size = Module.HEAP32[sizePtr / 4];
+    // let time = Module.HEAP32[timePtr / 4 + 1];
+    // let dataPtr = Module.HEAP32[dataPtr / 4 + 2];
+    // let data = Module.HEAPU8.subarray(imgBufferPtr, imgBufferPtr + size);
+    // console.log(size, time, data)
   });
 
-  mo.observe(document.getElementById('size-ptr'), {
+  mo.observe(document.querySelector('#packet-ptr'), {
     'attributes': true,
     'attributeOldValue': true
   });
